@@ -9,11 +9,28 @@
     [ # Include the results of the hardware scan.
       #<home-manager/nixos>
       #./home
+      ./modules/nixos/wayland.nix
+      ./modules/nixos/work.nix
+      ./modules/nixos/xorg.nix
       ./hardware-configuration.nix
-      ./wayland.nix
-      ./work.nix
-      ./xorg.nix
     ];
+
+  nix.settings = {
+    experimental-features = [ "nix-command"  "flakes" ];
+    auto-optimise-store = true;
+  };
+  nix.registry = (
+    lib.mapAttrs (_: flake: {inherit flake;})) ((lib.filterAttrs (_: lib.isType "flake")) inputs
+  );
+
+  nix.nixPath = ["/etc/nix/path"];
+  environment.etc =
+    lib.mapAttrs'
+    (name: value: {
+      name = "nix/path/${name}";
+      value.source = value.flake;
+    })
+    config.nix.registry;
 
   boot = {
     kernelModules = [ "kvm-amd" "kvm-intel"];
@@ -69,7 +86,7 @@
     };
   };
 
-  networking.hostName = "xps-nixos"; # Define your hostname.
+  networking.hostName = "it-vd-03"; # Define your hostname.
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -102,12 +119,12 @@
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.cshumer = {
-    isNormalUser = true;
-    description = "Cody Shumer";
-    extraGroups = [ "qemu-libvirtd" "libvirtd" "video" "audio" "disk" "networkmanager" "wheel" ];
-    shell = pkgs.zsh;
-  };
+  # users.users.cshumer = {
+  #   isNormalUser = true;
+  #   description = "Cody Shumer";
+  #   extraGroups = [ "qemu-libvirtd" "libvirtd" "video" "audio" "disk" "networkmanager" "wheel" ];
+  #   shell = pkgs.zsh;
+  # };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -115,70 +132,13 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    alacritty
-    appimagekit
-    brave
-    cmake
-    docker
-    flameshot
-    git
-    gvfs
-    heroic
-    imagemagick
-    libnotify
-    libsForQt5.ark
-    libsForQt5.filelight
-    libreoffice
-    lshw
-    lutris
-    meson
-    mpv
-    networkmanagerapplet
-    pavucontrol
-    pcmanfm-qt
-    qbittorrent
-    ranger
-    surf
-    system-config-printer
-    tmux
-    wget
-    zip
-    unrar
-    unzip
-    timeshift
-    teamviewer
-    virt-manager
-    qemu
-    remmina
-
-    # Necessary Applicaitions for Window Managers
-    btop
-    dunst
-    lxappearance
-    polkit_gnome
-    rofi-wayland
-    rofi-power-menu
-
-    # Audio
-    wireplumber
-
     # Theming
     gnome.gnome-backgrounds
     libsForQt5.breeze-gtk
     libsForQt5.plasma-workspace-wallpapers
     tela-icon-theme
-
-    # Programming Langauges
-    cargo
-    go
-    libgccjit
-    nodejs_20
-    (python311.withPackages(ps: with ps; [ psutil ]))
-    python311Packages.pip
-    poetry
-    rustc
-    rustup
-    rust-analyzer
+    materia-theme
+    # materia-kde-theme
   ];
 
   fonts = {
@@ -196,26 +156,27 @@
   };
 
   programs = {
-    dconf.enable = true;
-    gamemode.enable = true;
-    gamescope.enable = true;
-    light.enable = true;
-    neovim = {
-      defaultEditor = true;
-      enable = true;
-      withRuby = true;
-      withPython3 = true;
-      withNodeJs = true;
-      vimAlias = true;
-      viAlias = true;
-    };
-    steam = {
-      enable = true;
-      remotePlay.openFirewall = true;
-      dedicatedServer.openFirewall = true;
-      # gamescopeSession.enable = true;
-    };
-    zsh.enable = true;
+    # dconf.enable = true;
+    # gamemode.enable = true;
+    # gamescope.enable = true;
+    # git.enable = true;
+    # light.enable = true;
+    # neovim = {
+    #   defaultEditor = true;
+    #   enable = true;
+    #   withRuby = true;
+    #   withPython3 = true;
+    #   withNodeJs = true;
+    #   vimAlias = true;
+    #   viAlias = true;
+    # };
+    # steam = {
+    #   enable = true;
+    #   remotePlay.openFirewall = true;
+    #   dedicatedServer.openFirewall = true;
+    #   # gamescopeSession.enable = true;
+    # };
+    # zsh.enable = true;
   };
 
   # Have QT follow GTK Themes
@@ -265,7 +226,7 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
 
-  system.stateVersion = "23.05"; # Did you read the comment?
+  system.stateVersion = "23.11"; # Did you read the comment?
 
 }
 
