@@ -22,10 +22,8 @@
     inherit (self) outputs;
 
     systems = [
-      "aarch64-linux"
+      # "aarch64-linux"
       "x86_64-linux"
-      "aarch64-darwin"
-      "x86_64-darwin"
     ];
 
     forAllSystems = nixpkgs.lib.genAttrs systems;
@@ -50,27 +48,35 @@
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
       # FIXME replace with your hostname
-      your-hostname = nixpkgs.lib.nixosSystem {
+      "it-vd-03" = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         modules = [
           # > Our main nixos configuration file <
           ./configuration.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.cshumer = import ./home/default.nix;
+          }
         ];
       };
     };
 
     # Standalone home-manager configuration entrypoint
     # Available through 'home-manager --flake .#your-username@your-hostname'
-    homeConfigurations = {
-      # FIXME replace with your username@hostname
-      "cshumer@it-vd-03" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-        extraSpecialArgs = {inherit inputs outputs;};
-        modules = [
-          # > Our main home-manager configuration file <
-          ./home/home.nix
-        ];
-      };
-    };
+    # homeConfigurations = {
+    #   # FIXME replace with your username@hostname
+    #   "cshumer@it-vd-03" = home-manager.lib.homeManagerConfiguration {
+    #     pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+    #     extraSpecialArgs = {inherit inputs outputs;};
+    #     modules = [
+    #       # > Our main home-manager configuration file <
+    #       ./home/home.nix
+    #     ];
+    #   };
+    # };
   };
 }
+
+#vim:ft=nix
