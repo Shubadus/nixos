@@ -4,29 +4,26 @@
   config = {
     systemd = {
       user.services = {
-        swayidle = {
-          description = "swayidle";
-          wantedBy = [ "graphical-session.target" ];
-          serviceConfig = {
-            Type = "simple";
-            ExecStart = "${pkgs.swayidle}/bin/swayidle";
-          };
-        };
+        # swayidle = {
+        #   description = "swayidle";
+        #   wantedBy = [ "graphical-session.target" ];
+        #   serviceConfig = {
+        #     Type = "simple";
+        #     ExecStart = "${pkgs.swayidle}/bin/swayidle";
+        #   };
+        # };
       };
     };
 
     environment.systemPackages = with pkgs; [
-      gtklock
-      gtklock-userinfo-module
-      gtklock-powerbar-module
-      gtklock-playerctl-module
       kanshi
       swaybg
       swayimg
-      # swaylock-effects
+      swaylock-effects
       swayidle
       swaynotificationcenter
-      wdisplays
+      nwg-displays
+      nwg-look
       wlogout
       wl-clipboard
       wl-gammactl
@@ -34,41 +31,47 @@
 
       libsForQt5.breeze-gtk
       libsForQt5.plasma-workspace-wallpapers
+      materia-theme
+      materia-kde-theme
       nordic
       tela-icon-theme
     ];
     environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
     programs = {
-      sway = {
-        enable = true;
-        # package = pkgs.swayfx;
-        extraPackages = with pkgs; [
-          autotiling
-          nwg-bar
-          nwg-dock
-          nwg-drawer
-          nwg-launchers
-        ];
-      };
       hyprland = {
         enable = true;
-        nvidiaPatches = true;
         xwayland.enable = true;
-        xwayland.hidpi = true;
       };
       waybar.enable = true;
+      thunar = {
+        enable = true;
+        plugins = with pkgs.xfce; [
+          thunar-archive-plugin
+          thunar-volman
+        ]
+      };
     };
 
     security.pam.services.swaylock.fprintAuth = false;
-    security.pam.services.gtklock = {};
 
     services = {
-      xserver.enable = true;
-      xserver.displayManager.gdm = {
-        enable = true;
-        wayland = true;
+      greetd = {
+        enabled = true;
+        settings = {
+          default_session = {
+            command = "${lib.makeBinPath [ pkgs.greetd.tuigreet ]}/tuigreet \
+              -r --asterisks --time --cmd ${runner}"
+          };
+        };
       };
+      gvfs.enable = true; # Mount, trash, and other functionalities for thunar
+      tumbler.enable = true; # Thumbnail support for thunar
+      # xserver.enable = true;
+      # xserver.displayManager.gdm = {
+      #   enable = true;
+      #   wayland = true;
+      # };
     };
   };
 }

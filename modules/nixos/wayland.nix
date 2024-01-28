@@ -2,33 +2,31 @@
  
 {
   config = {
-    systemd = {
-      user.services = {
-        swayidle = {
-          description = "swayidle";
-          wantedBy = [ "graphical-session.target" ];
-          serviceConfig = {
-            Type = "simple";
-            ExecStart = "${pkgs.swayidle}/bin/swayidle";
-          };
-        };
-      };
-    };
-
     environment.systemPackages = with pkgs; [
-      gtklock
-      gtklock-userinfo-module
-      gtklock-powerbar-module
-      gtklock-playerctl-module
+      alacritty
+      appimagekit
+      brave
+      btop
+      cage
+      dunst
+      grim
       kanshi
-      nwg-look
+      libreoffice
       nwg-displays
+      nwg-look
+      pavucontrol
+      polkit_gnome
+      pyprland
+      qbittorrent
+      slurp
+      spotify
       swaybg
       swayimg
-      # swaylock-effects
+      swaylock-effects
       swayidle
-      swaynotificationcenter
-      # wdisplays
+      teamviewer
+      timeshift
+      wireplumber
       wlogout
       wl-clipboard
       wl-gammactl
@@ -36,42 +34,48 @@
 
       libsForQt5.breeze-gtk
       libsForQt5.plasma-workspace-wallpapers
+      materia-theme
+      materia-kde-theme
       nordic
       tela-icon-theme
     ];
     environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
     programs = {
-      sway = {
-        enable = true;
-        # package = pkgs.swayfx;
-        extraPackages = with pkgs; [
-          autotiling
-          nwg-bar
-          nwg-dock
-          nwg-drawer
-          nwg-launchers
-        ];
-      };
       hyprland = {
         enable = true;
-        enableNvidiaPatches = true;
         xwayland.enable = true;
-        xwayland.hidpi = true;
       };
       waybar.enable = true;
+      thunar = {
+        enable = true;
+        plugins = with pkgs.xfce; [
+          thunar-archive-plugin
+          thunar-volman
+        ]
+      };
+      nm-applet.enable = true;
     };
 
-    # security.pam.services.swaylock.fprintAuth = false;
-    security.pam.services.gtklock = {};
+    security.pam.services.swaylock.fprintAuth = false;
 
     services = {
-      xserver.enable = true;
-      xserver.displayManager.sddm = {
-        enable = true;
-        theme = "Materia-dark-compact";
-        wayland.enable = true;
+      # Display Manager
+      # TODO: Look at using regreet instead
+      greetd = {
+        enabled = true;
+        settings = {
+          default_session = {
+            command = "${cage}/bin/cage gtkgreet"
+            user = "greeter"
+          };
+        };
       };
+      gvfs.enable = true; # Mount, trash, and other functionalities for thunar
+      tumbler.enable = true; # Thumbnail support for thunar
     };
+    environment.etc."greetd/environments".text = ''
+      Hyprland
+    '';
   };
 }
