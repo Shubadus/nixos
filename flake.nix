@@ -2,7 +2,7 @@
   description = "First Attempt at a flake config";
 
   inputs = {
-    nixpkgs.url = "github.com:nixos/nixpkgs/nixos-23.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
 
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
@@ -41,7 +41,7 @@
     imports = [
       ./modules/nixos/system.nix
       ./modules/nixos/wayland.nix
-      ./modules/nixos/work.nix
+      # ./modules/nixos/work.nix
       ./home/default.nix
     ];
     # nixosConfigurations = {

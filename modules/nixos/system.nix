@@ -17,15 +17,6 @@
       };
       efi.canTouchEfiVariables = true;
     };
-    initrd = {
-      secrets = {
-        "/crypto_keyfile.bin" = null;
-      };
-      luks.devices."luks-6bec694b-327f-409b-82e6-1c4fb7e51cde" = {
-        device = "/dev/disk/by-uuid/6bec694b-327f-409b-82e6-1c4fb7e51cde";
-        keyFile = "/crypto_keyfile.bin";
-      };
-    };
   };
 
   systemd = {
