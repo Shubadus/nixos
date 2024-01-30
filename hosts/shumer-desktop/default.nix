@@ -7,6 +7,7 @@
       lutris
     ]
   };
+  networking.hostname = "shumer-desktop";
   programs = {
     gamemode.enable = true;
     gamescope.enable = true;
