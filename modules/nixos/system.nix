@@ -78,24 +78,29 @@
     home-manager.enable = true;
     light.enable = true;
     neovim = {
-      defaultEditor = true;
+      # defaultEditor = true;
       enable = true;
       withRuby = true;
       withPython3 = true;
       withNodeJs = true;
-      vimAlias = true;
-      viAlias = true;
+      # vimAlias = true;
+      # viAlias = true;
     };
     virt-manager.enable = true;
   };
 
   environment.systemPackages = with pkgs; [
+    ansible
     cmake
     imagemagick
+    imv
     libnotify
     lshw
+    lunarvim
+    mesa
     meson
     mpv
+    noisetorch
     ranger
     wget
     zip

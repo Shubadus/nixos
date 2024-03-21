@@ -6,6 +6,7 @@
     chromium
     microsoft-edge
     onedrive
+    onedrivegui
     remmina
     _1password-gui
     _1password

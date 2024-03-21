@@ -5,6 +5,7 @@
     environment.systemPackages = with pkgs; [
       alacritty
       appimagekit
+      auto-cpufreq
       brave
       btop
       cage

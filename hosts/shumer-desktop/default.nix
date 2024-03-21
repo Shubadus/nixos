@@ -3,8 +3,13 @@
 {
   config = {
     environment.systemPackages = with pkgs; [
+      game-devices-udev-rules
       heroic
       lutris
+      mangohud
+      osu-lazer-bin
+      protonup-qt
+      steam-rom-manager
     ]
   };
   networking.hostname = "shumer-desktop";
