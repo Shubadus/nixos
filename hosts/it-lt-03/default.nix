@@ -1,4 +1,8 @@
 { config, pkgs, self, ... }: {
+  imports = [
+    ./modules/nixos/system.nix
+    ./modules/nixos/wayland.nix
+  ];
   environment.systemPackages = with pkgs; [
     # Work
     azure-cli

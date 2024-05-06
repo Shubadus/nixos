@@ -3,12 +3,13 @@
 {
   config = {
     environment.systemPackages = with pkgs; [
+      ags
       alacritty
       appimagekit
       auto-cpufreq
       brave
       btop
-      cage
+      # cage
       dunst
       grim
       kanshi
@@ -28,7 +29,7 @@
       teamviewer
       timeshift
       wireplumber
-      wlogout
+      # wlogout
       wl-clipboard
       wl-gammactl
       wofi
@@ -47,7 +48,7 @@
         enable = true;
         xwayland.enable = true;
       };
-      waybar.enable = true;
+      # waybar.enable = true;
       thunar = {
         enable = true;
         plugins = with pkgs.xfce; [
@@ -55,7 +56,7 @@
           thunar-volman
         ]
       };
-      nm-applet.enable = true;
+      # nm-applet.enable = true;
     };
 
     security.pam.services.swaylock.fprintAuth = false;

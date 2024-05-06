@@ -6,6 +6,11 @@
   pkgs,
   ...
 }: {
+  imports = [
+    ./hyprland
+    ./programs
+  ];
+
   nixpkgs = {
     config = {
       allowUnfree = true;
@@ -16,6 +21,7 @@
   home= {
     username = "cshumer";
     homeDirectory = "/home/cshumer";
+    stateVersion = "23.11";
   };
 
   home-manager.useGlobalPkgs = true;
@@ -33,5 +39,4 @@
 
   systemd.user.startServices = "sd-switch";
 
-  home.stateVersion = "23.11";
 }

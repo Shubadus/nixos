@@ -23,16 +23,31 @@
   } @ inputs: let
     inherit (self) outputs;
 
-    system = "x86_64-linux";
-    pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
-    lib = nixpkgs.lib;
-
+      system = "x86_64-linux";
+      pkgs = inputs.nixpkgs.legacyPackages.${system};
+      # pkgs = import nixpkgs {
+      #   inherit system;
+      #   config = {
+      #     allowUnfree = true;
+      #   };
+      # };
+      lib = nixpkgs.lib;
   in {
-    imports = [
-      ./modules/nixos/system.nix
-      ./modules/nixos/wayland.nix
-      ./modules/home/default.nix
-    ];
+    nixosConfigurations = {
+      it-vd-03 = nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit system };
+        modules = [ default.nix ./hosts/it-lt-03 ];
+      };
+      shumer-desktop = {
+        specialArgs = { inherit system };
+        modules = [ default.nix ./hosts/shumer-desktop ];
+      }
+    };
+  };
+  homeConfigurations.cshumer = home-manager.lib.homeManagerConfiguration {
+    inherit pkgs;
+  
+    modules = [ ./modules/home/default.nix ];
   };
 }
 
