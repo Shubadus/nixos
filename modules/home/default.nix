@@ -6,10 +6,10 @@
   pkgs,
   ...
 }: {
-  imports = [
-    ./hyprland
-    ./programs
-  ];
+  # imports = [
+  #   ./hyprland
+  #   ./programs
+  # ];
 
   nixpkgs = {
     config = {
@@ -21,22 +21,22 @@
   home= {
     username = "cshumer";
     homeDirectory = "/home/cshumer";
-    stateVersion = "23.11";
+    stateVersion = "24.05";
   };
 
   home-manager.useGlobalPkgs = true;
   home-manager.users.cshumer = {
-    gtk = {
-      enable = true;
-      font.name = "NotoSans Nerd Font 10";
-      font.package = pkgs.nerdfonts;
-      theme.name = "Materia-dark-compact";
-      theme.package = pkgs.materia-theme;
-      iconTheme.name = "Tela-blue-dark";
-      iconTheme.package = pkgs.tela-icon-theme;
-    };
+    # gtk = {
+    #   enable = true;
+    #   font.name = "NotoSans Nerd Font 10";
+    #   font.package = pkgs.nerdfonts;
+    #   theme.name = "Materia-dark-compact";
+    #   theme.package = pkgs.materia-theme;
+    #   iconTheme.name = "Tela-blue-dark";
+    #   iconTheme.package = pkgs.tela-icon-theme;
+    # };
   };
 
-  systemd.user.startServices = "sd-switch";
 
+  # systemd.user.startServices = "sd-switch";
 }

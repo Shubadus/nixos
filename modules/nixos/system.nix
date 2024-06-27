@@ -24,8 +24,6 @@
     };
   };
 
-  # networking.hostName = "it-vd-03"; # Define your hostname.
-
   # Enable networking
   networking.networkmanager.enable = true;
 
@@ -51,8 +49,8 @@
   # Enable sound with pipewire.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
+  hardware.system76.enableAll = true;
   security = {
-    rtkit.enable = true;
     polkit.enable = true;
   };
 
@@ -75,8 +73,11 @@
 
   programs = {
     dconf.enable = true;
-    home-manager.enable = true;
-    light.enable = true;
+    gamemode.enable = true;
+    gamescope.enable = true;
+    git.enable = true;
+    # home-manager.enable = true;
+    # light.enable = true;
     neovim = {
       # defaultEditor = true;
       enable = true;
@@ -101,6 +102,7 @@
     meson
     mpv
     noisetorch
+    podman-compose
     ranger
     wget
     zip
@@ -120,50 +122,37 @@
     rust-analyzer
   ];
 
-  # Have QT follow GTK Themes
-  qt = {
-    enable = true;
-    platformTheme = "gtk2";
-    style = "gtk2";
-  };
-
-  xdg.icons.enable = true;
-  xdg.portal.enable = true;
-
-  services = {
-    flatpak.enable = true;
-    fwupd.enable = true; # Firmware Updater
-    services.auto-cpufreq = {
+    # Have QT follow GTK Themes
+    qt = {
       enable = true;
-      settings = {
-        battery = {
-          governor = "powersave";
-          turbo = "never";
-        };
-        charger = {
-          governor = "performance";
-          turbo = "auto";
-        };
-      };
+      platformTheme = "gtk2";
+      style = "gtk2";
+    };
+
+    xdg.icons.enable = true;
+    xdg.portal.enable = true;
+
+    services = {
+      flatpak.enable = true;
+      fwupd.enable = true; # Firmware Updater
     };
 
     pipewire = {
       enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
+      alsa = {
+        enable = true;
+        support32Bit = true;
+      };
       pulse.enable = true;
+      wireplumber.enable = true;
     };
 
     printing.enable = true;
-
     thermald.enable = true; # Temperature Management
-  };
 
   virtualisation = {
     libvirtd.enable = true;
-    lxc = {
-      enable = true;
-    };
+    podman.enable = true
     # waydroid.enable = true;
   };
 
@@ -174,7 +163,7 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
 
-  system.stateVersion = "23.11"; # Did you read the comment?
+  system.stateVersion = "24.05"; # Did you read the comment?
 
 }
 

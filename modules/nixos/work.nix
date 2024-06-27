@@ -4,7 +4,7 @@
   environment.systemPackages = with pkgs; [
     # Work
     azure-cli
-    # citrix_workspace
+    citrix_workspace
     chromium
     microsoft-edge
     onedrive
@@ -14,29 +14,4 @@
     # Android
     scrcpy
   ];
-
-  systemd = {
-    user.services = {
-      remmina = {
-        description = "Remmina";
-        wantedBy = [ "graphical-session.target" ];
-        wants = [ "graphical-session.target" ];
-        after = [ "graphical-session.target" ];
-        serviceConfig = {
-          Type = "simple";
-          ExecStart = "${pkgs.remmina}/bin/remmina -i";
-        };
-      };
-      onepassword = {
-        description = "1password";
-        wantedBy = [ "graphical-session.target" ];
-        wants = [ "graphical-session.target" ];
-        after = [ "graphical-session.target" ];
-        serviceConfig = {
-          Type = "simple";
-          ExecStart = "${pkgs._1password-gui}/bin/1password --silent";
-        };
-      };
-    };
-  };
 }

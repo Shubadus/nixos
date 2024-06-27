@@ -6,41 +6,54 @@
       ags
       alacritty
       appimagekit
-      auto-cpufreq
       brave
       btop
-      # cage
-      dunst
       grim
-      kanshi
       libreoffice
-      nwg-displays
-      nwg-look
       pavucontrol
       polkit_gnome
-      pyprland
       qbittorrent
       slurp
-      spotify
-      swaybg
-      swayimg
-      swaylock-effects
-      swayidle
+  
+      # Hyprland specific
+      dunst
+      hyprpaper
+      hyprshot
+      hyprlock
+      hypridle
+      hyprpicker
+      hyprcursor
+      hyprlandPlugins = {
+        hyprexpo
+        hyprbars
+      }
+      kanshi
+      pyprland
+      nwg-displays
+      nwg-look
+      swww
+      wlogout
+      wl-clipboard
+      wofi
+
+      # DM
+      cage
+      greetd.greetd
+      greetd.regreet
+
       teamviewer
       timeshift
       wireplumber
-      # wlogout
-      wl-clipboard
-      wl-gammactl
-      wofi
 
+      # Themeing
+      nerdfonts
       libsForQt5.breeze-gtk
       libsForQt5.plasma-workspace-wallpapers
       materia-theme
-      materia-kde-theme
       nordic
       tela-icon-theme
     ];
+
     environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
     programs = {
@@ -48,7 +61,8 @@
         enable = true;
         xwayland.enable = true;
       };
-      # waybar.enable = true;
+      nm-applet.enable = true;
+      starship.enable = true;
       thunar = {
         enable = true;
         plugins = with pkgs.xfce; [
@@ -56,19 +70,20 @@
           thunar-volman
         ]
       };
-      # nm-applet.enable = true;
+      waybar.enable = true;
     };
 
     security.pam.services.swaylock.fprintAuth = false;
 
     services = {
+      blueman.enable = true;
       # Display Manager
       # TODO: Look at using regreet instead
       greetd = {
         enabled = true;
         settings = {
           default_session = {
-            command = "${cage}/bin/cage gtkgreet"
+            command = "${cage}/bin/cage regreet"
             user = "greeter"
           };
         };
